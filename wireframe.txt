@@ -1,0 +1,30 @@
+First, you'll want to list out all of the distinct views in your application.
+* is for not planned for now but good stretch goals or future work
+
+*start screen-log in or sign up
+*registration screen:user email, password, location
+*new user walkthrough-sets up favorite beers/ciders/meads, favorite locations,
+    one or more favorite cities
+Dashboard: start a new search, review notes* or previous places tried*, 
+    access settings to add new favorites or location.*
+New search screen -enter in area, type of drink, with or without food
+Results - filter by avg rating, distance, prices
+*User settings-save notes on locations visited, specific drinks or brewers.
+
+
+Next, you'll write out the "what the user sees, what the user does, what happens" statements for each page, covering all the possible paths through your app.
+
+Start screen: User sees a welcome message, drop downs to search by beer, cider, or mead.
+              submit form based on location/zip code
+              radio button: with or without food
+              Submit button
+              user selcts from drop downs, enters zip code or city& State, and checks with or without food
+              user submits through button to start search
+
+  Results screen: user gets results sorted automatically as returned from api.
+                  User has a drop down to select sort based on miles, avg ratings, price*
+                  user selects a result and clicks on it to be redirected to the location website (open in new tab)            
+
+Finally, before moving on to implement your prototype, we recommend that you also create "back-of-a-napkin" wireframes for each screen in your app.
+    done in lucid charts. URL will be submitted.
+https://www.lucidchart.com/invitations/accept/3b5a193d-b1bb-41d3-9a22-4541bf336879
