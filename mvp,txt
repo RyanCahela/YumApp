@@ -1,0 +1,9 @@
+Bare bones:
+name of app
+instruction labes for forms: enter city,ST or zip code
+                              Select a type of brew-large scale beer/cider/mead
+                              enter a type (ale, lager, ipa, dry, sweet, fruit)
+submit
+Results screen-BrewFinder Results                              
+list Results
+ask for more (resubmit?) or restart search
