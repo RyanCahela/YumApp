@@ -69,17 +69,58 @@ header p{
   h1{
     font-size: 2rem;
   }
-  .cityst{
-    width: 90%;
-    margin-block-start: 0 auto;
-  }
-  .instructions{
-    width:90%;
+  p{
+    width: 95%;
     text-align: center;
+    font-size: 1.2rem;
+  }
+  .cityst{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
     margin: 0 auto;
+    align-content: center;
+  }
+}
+
+@media(min-width:550px){
+  h1{
+    font-size: 2.2rem;
+  }
+  p{
+    width:95%;
+    text-align: center;
+  }
+  .cityst{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    font-size: 1rem;
+    margin: 0 auto;
+  }
+  .type{
+    display: flex;
+    align-self: center;
   }
 }
 
 @media (min-width: 1000px){
-  
+  h1{
+    font-size: 3em;
+  }
+  p{
+    width: 100%;
+    text-align: center;
+    font-size: 2.2rem
+  }
+  .cityst{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2rem;
+  }
+  .submitbtn{
+    font-size: 2.5rem;
+  }
 }
