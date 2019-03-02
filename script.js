@@ -7,9 +7,16 @@ function startSearch(){
     let searchState = $('#state-select').val();
     let searchZip = $('#zipcode-input').val();
     let searchType= $('.type').val();
-    return 
+    return (checkError())
   });
 }
-
+function checkError(){
+  if (searchType === '' || searchState && seachZip===''){
+    throw 'you must check one box';
+  }
+  else {
+    return (whateverFunction());
+  }
+}
 
 
