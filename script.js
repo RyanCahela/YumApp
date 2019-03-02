@@ -7,9 +7,8 @@ function startSearch(){
     let searchState = $('#state-select').val();
     let searchZip = $('#zipcode-input').val();
     let searchType= $('.type').val();
-    
+    return 
   });
-
 }
 
 
