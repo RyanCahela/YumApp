@@ -24,6 +24,11 @@ header p{
   text-align: center;
   margin: 0 auto;
 }
+.instructions{
+  width: 95%;
+  margin: 0 auto;
+}
+
 .cityst{
   width: 35%;
   margin: 0 auto;
@@ -58,4 +63,23 @@ header p{
   color: cornsilk;
   background-color: #5A632C;
   transition: background-color .3s ease;
+}
+
+@media (min-width: 320px){
+  h1{
+    font-size: 2rem;
+  }
+  .cityst{
+    width: 90%;
+    margin-block-start: 0 auto;
+  }
+  .instructions{
+    width:90%;
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1000px){
+  
 }

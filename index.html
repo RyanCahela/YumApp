@@ -4,50 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>BrewFinder</title>
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="main.css">
 
-  <title>BrewFinder</title>
 </head> 
 <body>
-<header role="banner">
-  <h1>BrewFinder</h1>
-</header>
-<p>Enter your city and state or zip code, select where you would like to enjoy your next brew!</p>
-<main role="form">  
-  <form class="cityst">
-  <input type="text" name="cityST or zipcode"  aria-label="submit search query by cityST" label="Search by City,ST or zipocode" value="city,ST or zipcode">
-  
-  <div class="type">
-    <input id="micro" name="micro" type="checkbox" value="micro brewery">
-    <label for="micro brewery">Micro Brews</label>
+  <header role="banner">
+    <h1>BrewFinder</h1>
+  </header>
+  <main role="main">  
+    <div class="instructions">
+      <p>Enter your city and state or zip code, select where you would like to enjoy your next brew!</p>
     </div>
-    <div class="type">
+    <form class="cityst">
+      <input type="text" name="cityST or zipcode"  aria-label="submit search query by cityST" label="Search by City,ST or zipocode" value="city,ST or zipcode">
+      
+      <div class="type">
+        <input id="micro" name="micro" type="checkbox" value="micro bråewery">
+        <label for="micro brewery">Micro Brews</label>
+      </div>
+      <div class="type">
         <input id="regional" name="regional" type="checkbox" value="regional">
         <label for="regional">Regional</label>
-    </div>
-    <div class="type">
+      </div>
+      <div class="type">
         <input id="brewpub" name="brewpub" type="checkbox" value="brewpub">
         <label for="brewpub">Brewpub</label>
-    </div>
-    <div class="type">
+      </div>
+      <div class="type">
         <input id="bar" name="bar" type="checkbox" value="bar">
         <label for="bar">Bar</label>
-        </div>
-        <button class="submitbtn" type="submit" aria-label="submit" value="submit">Submit</button>
+      </div>
+      <button class="submitbtn" type="submit" aria-label="submit" value="submit">Submit</button>
     </form>
-
-
-
-
-</main>
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-crossorigin="anonymous"></script>
-
-<script src="script.js"></script>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src="script.js"></script>
 </body>
 </html>
