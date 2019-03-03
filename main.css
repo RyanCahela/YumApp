@@ -11,7 +11,7 @@ body{
   }
 header{
   width: 95%;
-  font-size: 2rem;
+  font-size: 3em;
   color: #78853B;
   margin-left: auto;
   margin-right: auto;
@@ -19,7 +19,7 @@ header{
 }
 header p{
   width:95%;
-  font-size: 2rem;
+  font-size: 1.3rem;
   color: #212121;
   text-align: center;
   margin: 0 auto;
@@ -43,9 +43,27 @@ header p{
   margin-right: auto;
   text-align: center;
   color: #212121;
+  padding: 2rem;
 }
 
-
+.submitbtn {
+  width:5em;
+  margin-top: 3rem;
+  border: 2px solid #5A632C;
+  border-radius: 6px;
+  margin-left:auto;
+  margin-right: auto;
+  height: 2em;
+  background-color: #78853B;
+  font-size: 1.5rem;
+  color: darkgrey;
+  transition: background-color .3s ease;
+}
+.submitbtn:hover{
+  color: cornsilk;
+  background-color: #5A632C;
+  transition: background-color .3s ease;
+}
 .submitbtn {
   width:5em;
   margin-top: 3rem;
