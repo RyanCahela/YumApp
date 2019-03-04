@@ -3,11 +3,12 @@
   box-sizing: border-box;
 }
 html{
-  height: 100%;
+  height:200%;
 }
 body{
-  height: 100%;
-  background-image: linear-gradient(200deg, #FFD194 65%, #d1913c 100%);
+  height: 200%;
+  background-image: repeating-linear-gradient(200deg, #FFD194 0%, #d1913c 50%, #FFD194 100%)
+                    ;
   }
 header{
   width: 95%;
@@ -24,17 +25,34 @@ header p{
   text-align: center;
   margin: 0 auto;
 }
+
+.main {
+  padding-left: 20px;
+  padding-right: 20px;
+}
 .instructions{
   width: 95%;
   margin: 0 auto;
 }
 
-.cityst{
-  width: 35%;
-  margin: 0 auto;
-  text-align: center;
+.form-input {
   
 }
+
+
+.form-input input,
+.form-input select {
+  font-size: 1.5rem;
+  padding: 10px;
+}
+
+.form-input label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+
 .type{
   display: flex;
   align-items: center;
@@ -69,18 +87,37 @@ header p{
   margin-top: 3rem;
   border: 2px solid #5A632C;
   border-radius: 6px;
-  margin-left:auto;
-  margin-right: auto;
   height: 2em;
   background-color: #78853B;
   font-size: 1.5rem;
-  color: darkgrey;
+  color: white;
   transition: background-color .3s ease;
+  display: block;
 }
 .submitbtn:hover{
   color: cornsilk;
   background-color: #5A632C;
   transition: background-color .3s ease;
+}
+
+
+.results-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.results-list {
+  list-style: none;
+  padding: 0;
+}
+
+.results-list img {
+  width: 100%;
+}
+
+.result-item-list {
+  list-style: inherit;
+  padding: 0;
 }
 
 @media (min-width: 320px){
@@ -120,6 +157,17 @@ header p{
   .type{
     display: flex;
     align-self: center;
+  }
+
+  .results-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+  }
+
+  .form-input{
+    width: 35%;
+    margin: 0 auto;
   }
 }
 

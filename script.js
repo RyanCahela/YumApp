@@ -49,7 +49,6 @@ function displayResults(responseJson) {
   let $resultsUl = $(".results-list");
 
   let businessArray = responseJson.businesses;
-  console.log(businessArray);
   
 
   let elementArray = businessArray.map((item) => {
@@ -72,10 +71,9 @@ function displayResults(responseJson) {
 
 function createResultItem(resultInfoObj) {
 
-  console.log(resultInfoObj);
 
   let element = `<li>
-  <ul> 
+  <ul class="result-item-list"> 
     <li>${resultInfoObj.name}</li>
     <li>${resultInfoObj.address}</li>
     <li>${resultInfoObj.phone}</li>
