@@ -18,7 +18,7 @@
     <div class="instructions">
       <p>Enter your city and state or zip code, select where you would like to enjoy your next brew!</p>
     </div>
-    <form class="cityst">
+    <form class="form-input">
 
       <label for="city-input">City</label>
       <input id="city-input" type="text" name="city-input"  aria-label="input search by city">
@@ -82,16 +82,21 @@
       <input id="zipcode-input" type="text" name="zipcode-input"  aria-label="input search by city">
       <div class="type">
           <label for="typeofplace">Pick your atmosphere</label>
-          <select name="typeofplace" id="typeofplace">
-              <option value="brewpub">Brew pub</option>
+          <select name="typeofplace" id="typeofplace" class="typeofplace">
+              <option value="brewpub" selected>Brew pub</option>
               <option value="gastropub">Gastro pub</option>
               <option value="distillery">Distillery</option>
               <option value="bar">Bar</option>
               <option value="cideries">Cideries</option>
           </select>
       </div>
-      <button class="submitbtn" type="submit" aria-label="submit" value="submit">Submit</button>
+      <input class="submitbtn" type="submit" aria-label="submit" value="submit"></input>
     </form>
+    <div class="results-containter">
+      <ul class="results-list">
+
+      </ul>
+    </div>
   </main>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -100,23 +105,31 @@
 </body>
 </html>
   
-  <!-- results code for render results -->
-  <!-- <body>
-      <header role="banner">
-        <h1>BrewFinder</h1>
-      </header>
-  <main role="main">
-    <h2 id="results">Results</h2>
-    <ul>
-      <li>${name}</li>
-      <li>${display_address}</li>
-      <li>${phone}</li>
-      <li>${image_url}</li>
-      <li><a href=${url}>Check their website out.</a></li> 
-    </ul> 
+<!-- results code for render results
+<body>
+    <header role="banner">
+      <h1>BrewFinder</h1>
+    </header>
+<main role="main">
+  <h2 id="results">Results</h2>
+  <ul class="result-list">
+    <li class="result">
+      <ul> 
+        <li>${name}</li>
+        <li>${display_address}</li>
+        <li>${phone}</li>
+        <li>
+          <img src=${image_url}>
+        </li>
+        <li>
+          <a href=${url}>Check their website out.</a>
+        </li>
+      </ul>
+    </li> 
+  </ul>  -->
 
-  
-  -->
+
+
 
   
   
