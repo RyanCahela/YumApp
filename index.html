@@ -5,26 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>BrewFinder</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="main.css">
 
 </head> 
-<body>
-  <header role="banner">
-    <h1>BrewFinder</h1>
+<body class="body">
+  <header class="header" role="banner">
+    <h1 class="header__heading">BrewFinder</h1>
+    <h2 class="header__subheading">The world's best beer search engine</h2>
   </header>
   <main role="main" class="main">  
-    <div class="instructions">
-      <p>Enter your city and state or zip code, select where you would like to enjoy your next brew!</p>
-    </div>
-    <form class="form-input">
+    <form class="form">
+      <label class="form__label" for="zipcode-input">Zipcode</label>
+      <input class="form__text-input zipcode-input" id="zipcode-input" type="text" name="zipcode-input"  aria-label="input search by city"> 
 
-      <label for="city-input">City</label>
-      <input id="city-input" type="text" name="city-input"  aria-label="input search by city">
+      <label class="form__label"for="city-input">City(optional)</label>
+      <input class="form__text-input" id="city-input" type="text" name="city-input"  aria-label="input search by city">
 
-      <label for="state-select">State</label>
-      <select name="state-select" id="state-select">
+      <label class="form__label" for="state-select">State(optional)</label>
+      <select class="form__select-input" name="state-select" id="state-select">
+          <option value="FL">Select A State</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AZ">Arizona</option>
@@ -77,25 +79,22 @@
           <option value="WI">Wisconsin</option>
           <option value="WY">Wyoming</option>
       </select>
-
-      <label for="zipcode-input">Zipcode</label>
-      <input id="zipcode-input" type="text" name="zipcode-input"  aria-label="input search by city"> 
-      <label for="typeofplace">Pick your atmosphere</label>
-      <select name="typeofplace" id="typeofplace" class="typeofplace">
+      <label class="form__label" for="location-type">Pick your atmosphere</label>
+      <select class="form__select-input location-type" name="location-type" id="location-type">
           <option value="brewpubs">Brew pub</option>
           <option value="gastropubs">Gastro pub</option>
           <option value="distilleries">Distillery</option>
           <option value="beergardens">Beergarden</option>
           <option value="cideries">Cideries</option>
       </select>
-      <input class="submitbtn" type="submit" aria-label="submit" value="submit"></input>
+      <input class="submit-btn" type="submit" aria-label="submit" value="Search"></input>
     </form>
-    <div class="results-container">
+  </main>
+  <div class="results-container">
       <ul class="results-list">
 
       </ul>
     </div>
-  </main>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
