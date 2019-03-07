@@ -10,14 +10,13 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
     App.form.setValuesFromForm();
     let searchTermObj = App.form.getValues();
 
-    console.log(searchTermObj);
-    App.searchMeals.buildUrl(null,searchTermObj);
-    let fetchResolved = App.searchMeals.fetch(whenMealFetchResolves);
+    App.mealDBFetch.buildUrl(null,searchTermObj);
+    App.mealDBFetch.fetch(whenMealFetchResolves);
+
     function whenMealFetchResolves() {
-      App.listFormatter.setJson(App.searchMeals.json);
+      App.listFormatter.setJson(App.mealDBFetch.json);
       App.listFormatter.formatData();
       let result = App.listFormatter.getFormattedData();
-      console.log(result);
       App.displayResultsList(result);
     }
   })
@@ -62,15 +61,16 @@ function initializeApp() {
     }
 
   function Fetch(baseEndpoint,headers) {
-    this.url = baseEndpoint;
+    this.baseEndpoint = baseEndpoint;
+    this.customUrl = baseEndpoint;
     this.headers = headers;
     this.json = null;
     this.isResolved = false;
   }
   const fetchFunctions = {
     fetch: function(callback) {
-      console.log(this.url);
-      fetch(this.url,this.headers)
+      console.log(this.customUrl);
+      fetch(this.customUrl,this.headers)
       .then(response => {
         if(response.ok) {
           return response.json();
@@ -105,15 +105,15 @@ function initializeApp() {
           termArray.push(`a=${termObj.cuisineQuery}`);
         }
         searchTerms = termArray.join("&");
-        this.url += searchTerms;
+        this.customUrl = this.baseEndpoint + searchTerms;
         console.log(searchTerms);
       } else {
         searchTerms = mealId;
-      this.url += searchTerms;
+        this.customUrl = this.baseEndpoint + searchTerms;
       }
     },
     getUrl: function() {
-      return this.url;
+      return this.customUrl;
     }
   }
   function FormatList() {
@@ -148,15 +148,15 @@ function initializeApp() {
   let myForm = new Form(document.querySelector(".form"));
   Object.setPrototypeOf(myForm, formFunctions);
 
-  let myFetch = new Fetch("https://www.themealdb.com/api/json/v1/1/filter.php?",{});
-  Object.setPrototypeOf(myFetch, fetchFunctions);
+  let mealDBFetch = new Fetch("https://www.themealdb.com/api/json/v1/1/filter.php?",{});
+  Object.setPrototypeOf(mealDBFetch, fetchFunctions);
 
   let myFormatter = new FormatList();
   Object.setPrototypeOf(myFormatter,formatListFunctions);
 
   return {
     form: myForm,
-    searchMeals: myFetch,
+    mealDBFetch: mealDBFetch,
     listFormatter: myFormatter,
     displayResultsList: function(string) {
       let resultsList = document.getElementById("js-results-list");

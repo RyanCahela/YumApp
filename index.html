@@ -8,18 +8,35 @@
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/form.css" type="text/css">
+  <link rel="stylesheet" href="css/results.css" type="text/css">
+  <link rel="stylesheet" href="css/header.css" type="text/css">
 
 </head> 
 <body class="body">
-  <main role="main" class="main">  
     <header class="header" role="banner">
-        <h1 class="header__heading">YUM</h1>
-        <h2 class="header__subheading">The world's best beer search engine</h2>
+      <nav class="nav" role="navigation">
+        <ul class="nav-list">
+          <li>
+              <h1 class="main-heading">YUM</h1>
+          </li>
+          <li class="nav-list__item">
+            <button class="menu-button">Menu</button>
+          </li>
+          <li class="nav-list__item hidden">
+              <a href="#">Search</a>
+              <a href="#">Results</a>
+          </li>
+        </ul>
+        <h2 class="nav__subheading">The world's best recipe search engine</h2>
+      </nav>
     </header>
+  <main role="main" class="main">
+    <p class="form-instructions">Enter at least one filter below</p>
     <form class="form">
       <label class="form__label" for="ingredient-input">Main Ingredient</label>
-      <input class="form__text-input zipcode-input" id="ingredient-input" type="text" name="ingredient-input"  aria-label="input search by main ingredient"> 
+      <input class="form__text-input" id="ingredient-input" type="text" name="ingredient-input"  aria-label="input search by main ingredient"> 
 
       <label class="form__label" for="category-select">Category(optional)</label>
       <select class="form__select-input" name="category-select" id="category-select">
