@@ -148,9 +148,16 @@ html {
   padding: 0;
 }
 
-.results-list img {
+.result {
+  background: var(--button-bg-color);
+  padding: 10px 20px;
+  margin-bottom: 20px;
+}
+
+.result__link__image {
   width: 100%;
 }
+
 
 .result-item-list {
   list-style: inherit;
@@ -158,17 +165,11 @@ html {
   font-size: 2rem;
 }
 
-.result-item__heading {
-  color: var(--bar-name-color);
+.result__heading {
+  color: var(--light-text-color);
+  font-size: 2rem;
+  margin-top: 0;
 
-}
-
-
-.result-item__address,
-.result-item__phone,
-.result-item__link {
-  font-size: 1rem;
-  margin-bottom: 10px;
 }
 
 .result-item__link {
