@@ -34,9 +34,7 @@ function initializeApp() {
       categoryQuery: null,
       cuisineQuery: null
     }
-  }
-  const formFunctions = {
-    setValuesFromForm: function() {
+    this.setValuesFromForm = function() {
       function assignValueToProp(nameOfProp, CSSselectorOfElement) {
         this.queries[nameOfProp] = document.querySelector(CSSselectorOfElement).value;
       };
@@ -44,7 +42,7 @@ function initializeApp() {
       assignValueToProp.call(this,"categoryQuery", "#category-select");
       assignValueToProp.call(this,"cuisineQuery", "#country-of-origin-select");
     },
-    getValues: function() {
+    this.getValues = function() {
       function validateFormInputs(queriesObj) {
         let valueWasEntered = false;
         for(prop in queriesObj) {
@@ -61,17 +59,14 @@ function initializeApp() {
         throw "You must enter something to search";
       }
     }
-    }
+  }
 
   function Fetch(baseEndpoint,headers) {
     this.baseEndpoint = baseEndpoint;
     this.customUrl = baseEndpoint;
     this.headers = headers;
     this.json = null;
-    this.isResolved = false;
-  }
-  const fetchFunctions = {
-    fetch: function(callback) {
+    this.fetch = function(callback) {
       console.log(this.customUrl);
       fetch(this.customUrl,this.headers)
       .then(response => {
@@ -85,14 +80,14 @@ function initializeApp() {
         callback();
       })
       .catch(err => new Error(err));
-    },
-    getJson: function() {
+    };
+    this.getJson = function() {
       return this.json;
-    },
-    setJson: function(json) {
+    };
+    this.setJson = function(json) {
       this.json = json;
-    },
-    buildUrl: function(mealId,termObj) {
+    };
+    this.buildUrl = function(mealId,termObj) {
       let searchTerms = "";
       console.log(!mealId);  
       if(!mealId) {
@@ -114,17 +109,16 @@ function initializeApp() {
         searchTerms = mealId;
         this.customUrl = this.baseEndpoint + searchTerms;
       }
-    },
-    getUrl: function() {
+    };
+    this.getUrl = function() {
       return this.customUrl;
     }
   }
+  
   function FormatList() {
     this.data = null;
     this.formattedOutput = "";
-  }
-  const formatListFunctions = {
-    formatData: function() {
+    this.formatData = function() {
       let stringArray = this.data.meals.map(function(item) { 
         return `<li class="result">
         <h3 class="result__heading">${item.strMeal}</h3>
@@ -134,38 +128,48 @@ function initializeApp() {
       </li>`;
       });
       this.formattedOutput = stringArray.join(' ');
-    },
-    getFormattedData: function() {
+    };
+    this.getFormattedData = function() {
       return this.formattedOutput;
-    },
-    getData: function() {
+    };
+    this.getData = function() {
       return this.data;
-    },
-    setJson: function(json) {
+    };
+    this.setJson = function(json) {
       this.data = json;
     }
-
   }
 
   function MenuButton(buttonSelector, linkSelector) {
     this.button = document.querySelector(buttonSelector);
     this.linksLi = document.querySelector(linkSelector);
     this.toggleExpanded = function() {
-      this.linksLi.classList.toggle("hidden");
-      
+      this.linksLi.classList.toggle("hidden");  
     }
+  }
+
+  function ViewManager(targetEl) {
+    this.targetEl = document.querySelector(targetEl);
+    this.currentView = "";
+    this.output = ""
+    this.templates = {};
+    this.setView = function(newView) {
+      this.currentView = newView;
+    };
+    this.render = function() {
+      this.targetEl.innerHTML = this.output;
+    };
+  }
+
+  function AppManager() {
+    this.json = [];
+    
   }
 
 
   let myForm = new Form(document.querySelector(".form"));
-  Object.setPrototypeOf(myForm, formFunctions);
-
   let mealDBFetch = new Fetch("https://www.themealdb.com/api/json/v1/1/filter.php?",{});
-  Object.setPrototypeOf(mealDBFetch, fetchFunctions);
-
   let myFormatter = new FormatList();
-  Object.setPrototypeOf(myFormatter,formatListFunctions);
-
   let menuButton = new MenuButton("#js-button-li","#js-link-li");
 
   return {
