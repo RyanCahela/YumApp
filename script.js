@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
   console.log("DOM Loaded");
 
   const App = initializeApp();
+  App.menuButton.button.addEventListener("click", function(e) {
+    App.menuButton.toggleExpanded();
+  });
 
   App.form.element.addEventListener("submit", function(e) {
     e.preventDefault();
@@ -144,6 +147,15 @@ function initializeApp() {
 
   }
 
+  function MenuButton(buttonSelector, linkSelector) {
+    this.button = document.querySelector(buttonSelector);
+    this.linksLi = document.querySelector(linkSelector);
+    this.toggleExpanded = function() {
+      this.linksLi.classList.toggle("hidden");
+      
+    }
+  }
+
 
   let myForm = new Form(document.querySelector(".form"));
   Object.setPrototypeOf(myForm, formFunctions);
@@ -154,10 +166,13 @@ function initializeApp() {
   let myFormatter = new FormatList();
   Object.setPrototypeOf(myFormatter,formatListFunctions);
 
+  let menuButton = new MenuButton("#js-button-li","#js-link-li");
+
   return {
     form: myForm,
     mealDBFetch: mealDBFetch,
     listFormatter: myFormatter,
+    menuButton: menuButton,
     displayResultsList: function(string) {
       let resultsList = document.getElementById("js-results-list");
       resultsList.innerHTML = string;
