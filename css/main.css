@@ -10,7 +10,8 @@
   --light-text-color: rgb(227, 223, 222);
   --bar-name-color: #D9AB6C;
   --link-text-color: #78853B;
-  --button-bg-color: rgb(194, 67, 60);
+  --button-bg-color: hsl(3, 53%, 50%);
+  --button-bg-hover-color: hsl(3, 53%, 40%);
   --card-bg-color: rgb(222, 155, 51);
   --overlay-bg-color: rgba(11,5,12,0.6);
   --heading-font: 'TheSlugAndLion', 'Ariel Black', sans-serif;
@@ -34,7 +35,7 @@ html {
 
 
 
-.body{
+.body {
   height: 100%;
   background-image: url(../img/katie-smith-104748-unsplash-dark.jpg);
   background-attachment: fixed;
@@ -44,9 +45,15 @@ html {
   font-family: var(--body-font);
 }
 
+.error-message {
+  color: var(--button-bg-color);
+  font-size: 1rem;
+  background-color: rgba(10, 0, 0,0.5);
+  padding: 10px;
+}
 
 .main {
-  padding: 30px 20px 0 20px;
+  padding: 150px 20px 0 20px;
   width: 100vw;
 }
 

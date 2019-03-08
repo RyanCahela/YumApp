@@ -41,9 +41,10 @@
     outline: none;
   }
   
-  .submit-btn:hover{
-    color: cornsilk;
-    filter: brightness(70%);
+  .submit-btn:hover,
+  .submit-btn:active{
+    color: var(--light-text-color);
+    background-color: var(--button-bg-hover-color);
     transition: background-color .3s ease;
   }
   

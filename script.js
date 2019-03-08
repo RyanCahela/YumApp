@@ -3,95 +3,83 @@ console.log('js connected');
 document.addEventListener("DOMContentLoaded", function onDOMLoad() {
   console.log("DOM Loaded");
 
+  function changeState(newState) {
+    const event = new CustomEvent("stateChanged", {
+      detail: {
+        state: newState
+      }
+    });
+    document.dispatchEvent(event);
+  }
+
   const App = initializeApp();
-  App.menuButton.button.addEventListener("click", function(e) {
-    App.menuButton.toggleExpanded();
-  });
 
-  App.form.element.addEventListener("submit", function(e) {
-    e.preventDefault();
-    App.form.setValuesFromForm();
-    let searchTermObj = App.form.getValues();
-
-    App.mealDBFetch.buildUrl(null,searchTermObj);
-    App.mealDBFetch.fetch(whenMealFetchResolves);
-
-    function whenMealFetchResolves() {
-      App.listFormatter.setJson(App.mealDBFetch.json);
-      App.listFormatter.formatData();
-      let result = App.listFormatter.getFormattedData();
-      App.displayResultsList(result);
+  document.addEventListener("stateChanged", function(e) {
+    if(e.detail === "search") {
+      
     }
-  })
+  });
+  
+
+  
+  App.searchViewManager.render(App.searchViewManager.html);
+  App.state = "search";
+
+  let searchState = new Promise((resolve,reject) => {
+    const form = document.getElementById("js-form");
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      App.searchViewManager.getValuesFromForm();  
+      if(App.searchViewManager.formInputsValid()) {
+          //make fetch
+          let url = App.searchViewManager.fetch.buildMealSearchUrl(App.searchViewManager.queries);
+          App.searchViewManager.fetch.getData(url,null,afterListFetch);
+      } else {
+          App.searchViewManager.displaySearchErrorToUser();
+      }
+      
+      //prevents execution until list json is available
+      function afterListFetch(jsonData) {
+        App.resultManager.setData.call(App.resultManager,jsonData);
+        App.resultManager.formatResultData.call(App.resultManager);
+        App.resultManager.render.call(App.resultManager,App.resultManager.html);
+        resolve(()=>{App.state = "result"});
+      }
+
+    });
+  }).then(()=>{
+    App.state = "result";
+    console.log(App.state);
+
+    const resultList = document.getElementById("result-list");
+    resultList.addEventListener("click", function(e) {
+      e.preventDefault();
+      console.log(e.target);
+    });
+  });
 });
 
 
 function initializeApp() {
-  function Form(formElement) {
-    this.element = formElement;
-    this.queries = {
-      mainIngredientQuery: null,
-      categoryQuery: null,
-      cuisineQuery: null
-    }
-    this.setValuesFromForm = function() {
-      function assignValueToProp(nameOfProp, CSSselectorOfElement) {
-        this.queries[nameOfProp] = document.querySelector(CSSselectorOfElement).value;
-      };
-      assignValueToProp.call(this,"mainIngredientQuery", "#ingredient-input");
-      assignValueToProp.call(this,"categoryQuery", "#category-select");
-      assignValueToProp.call(this,"cuisineQuery", "#country-of-origin-select");
-    },
-    this.getValues = function() {
-      function validateFormInputs(queriesObj) {
-        let valueWasEntered = false;
-        for(prop in queriesObj) {
-          if(queriesObj[prop]) {
-            valueWasEntered = true;
-          }
-        }
-        return valueWasEntered;
-      }
-      let valueWasEntered = validateFormInputs(this.queries);
-      if(valueWasEntered) {
-        return this.queries;
-      } else {
-        throw "You must enter something to search";
-      }
-    }
-  }
+  const ManagerFunctions = {
+    render: function(html) {
+      let element = document.getElementById("body");
+      element.innerHTML = html;
 
-  function Fetch(baseEndpoint,headers) {
-    this.baseEndpoint = baseEndpoint;
-    this.customUrl = baseEndpoint;
-    this.headers = headers;
-    this.json = null;
-    this.fetch = function(callback) {
-      console.log(this.customUrl);
-      fetch(this.customUrl,this.headers)
-      .then(response => {
-        if(response.ok) {
-          return response.json();
-        }
-        throw "something went wrong";
-      })
-      .then(responseJson => {
-        this.setJson(responseJson);
-        callback();
-      })
-      .catch(err => new Error(err));
-    };
-    this.getJson = function() {
-      return this.json;
-    };
-    this.setJson = function(json) {
-      this.json = json;
-    };
-    this.buildUrl = function(mealId,termObj) {
-      let searchTerms = "";
-      console.log(!mealId);  
-      if(!mealId) {
-        console.log("mealId is null"); 
+      //must reset menu listeners on render
+      function addMenuButtonListeners() {
+        let button = document.querySelector("#js-button-li");
+        let linksLi = document.querySelector("#js-link-li");
+        button.addEventListener("click", function() {
+          linksLi.classList.toggle("hidden");
+        });
+      }
+      addMenuButtonListeners();
+    },
+    fetch: {
+      buildMealSearchUrl:function(termObj) {
+        //formats the url to be compatable with themealdb api
+        let baseEndpoint = "https://www.themealdb.com/api/json/v1/1/filter.php?";
         let termArray = [];
         if(termObj.mainIngredientQuery){
           termArray.push(`i=${termObj.mainIngredientQuery}`);
@@ -102,24 +90,78 @@ function initializeApp() {
         if(termObj.cuisineQuery){
           termArray.push(`a=${termObj.cuisineQuery}`);
         }
-        searchTerms = termArray.join("&");
-        this.customUrl = this.baseEndpoint + searchTerms;
-        console.log(searchTerms);
-      } else {
-        searchTerms = mealId;
-        this.customUrl = this.baseEndpoint + searchTerms;
+        return baseEndpoint + termArray.join("&");
+      },
+      buildDetailSearchUrl: function(mealId) {
+        let baseEndpoint = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="
+        return baseEndpoint + String(mealId);
+      },
+      getData: function(url,headers,callback) {
+        fetch(url,headers)
+          .then(response => {
+            if(response.ok) {
+              return response.json();
+            }
+            throw "something went wrong";
+          })
+          .then(responseJson => {
+            if(callback) {
+            callback(responseJson);
+            return;
+            }
+            return responseJson;
+          })
+          .catch(err => new Error(err));
+        }
       }
-    };
-    this.getUrl = function() {
-      return this.customUrl;
-    }
   }
-  
-  function FormatList() {
+  function SearchManager() {
+    this.html = templates.searchTemplate;
+    this.queries = {
+      mainIngredientQuery: null,
+      categoryQuery: null,
+      cuisineQuery: null
+    },
+      //Event Listener Helper Functions
+    this.formInputsValid = function() {
+        let queriesObj = this.queries;
+        let valueWasEntered = false;
+        for(prop in queriesObj) {
+          if(queriesObj[prop]) {
+            valueWasEntered = true;
+          }
+        }
+        return valueWasEntered;
+    },
+    this.displaySearchErrorToUser = function() {
+      let form = document.querySelector("#js-form");
+      //so only one error message is displayed upon multiple clicks.
+      if (form.children[0].classList.contains('error-message')) {
+        return;
+      };
+      let errorMessage = document.createElement("div");
+      errorMessage.classList.add("error-message");
+      errorMessage.textContent = "Please select from the dropdowns or search by main ingredient";
+      form.prepend(errorMessage);
+    },
+    this.getValuesFromForm = function() {
+      function assignValueToProp(nameOfProp, CSSselectorOfElement) {
+        this.queries[nameOfProp] = document.querySelector(CSSselectorOfElement).value;
+      };
+      assignValueToProp.call(this,"mainIngredientQuery", "#ingredient-input");
+      assignValueToProp.call(this,"categoryQuery", "#category-select");
+      assignValueToProp.call(this,"cuisineQuery", "#country-of-origin-select");
+    }
+    
+  }
+
+  function ResultManager() {
     this.data = null;
-    this.formattedOutput = "";
-    this.formatData = function() {
-      let stringArray = this.data.meals.map(function(item) { 
+    this.html = templates.resultTemplate;
+    this.listObjects = [];
+    this.resultList = "";
+    this.formatResultData = function() {
+      let stringArray = this.data.map(function(item) { 
         return `<li class="result">
         <h3 class="result__heading">${item.strMeal}</h3>
         <a class="result__link" href="#">
@@ -127,16 +169,29 @@ function initializeApp() {
         </a>      
       </li>`;
       });
-      this.formattedOutput = stringArray.join(' ');
+
+
+      let div = document.createElement("div");
+      let ul = document.createElement("ul");
+
+      div.classList.add("results-container");
+      ul.classList.add("result-list");
+      ul.id = "result-list"
+      div.appendChild(ul);
+      ul.innerHTML = stringArray.join(' ');
+
+      this.html += div.innerHTML;
     };
+    this.insert
     this.getFormattedData = function() {
       return this.formattedOutput;
     };
     this.getData = function() {
       return this.data;
     };
-    this.setJson = function(json) {
-      this.data = json;
+    this.setData = function(json) {
+      console.log("setData ran");
+      this.data = json.meals;
     }
   }
 
@@ -148,38 +203,128 @@ function initializeApp() {
     }
   }
 
-  function ViewManager(targetEl) {
-    this.targetEl = document.querySelector(targetEl);
-    this.currentView = "";
-    this.output = ""
-    this.templates = {};
-    this.setView = function(newView) {
-      this.currentView = newView;
-    };
-    this.render = function() {
-      this.targetEl.innerHTML = this.output;
-    };
-  }
 
-  function AppManager() {
-    this.json = [];
-    
-  }
+  let searchViewManager = new SearchManager();
 
-
-  let myForm = new Form(document.querySelector(".form"));
-  let mealDBFetch = new Fetch("https://www.themealdb.com/api/json/v1/1/filter.php?",{});
-  let myFormatter = new FormatList();
+  let resultManager = new ResultManager();
+  
   let menuButton = new MenuButton("#js-button-li","#js-link-li");
 
+  Object.setPrototypeOf(resultManager, ManagerFunctions);
+  Object.setPrototypeOf(searchViewManager, ManagerFunctions);
+
+
+  console.log(resultManager.__proto__);
+
   return {
-    form: myForm,
-    mealDBFetch: mealDBFetch,
-    listFormatter: myFormatter,
+    searchViewManager: searchViewManager,
     menuButton: menuButton,
-    displayResultsList: function(string) {
-      let resultsList = document.getElementById("js-results-list");
-      resultsList.innerHTML = string;
-    }   
+    resultManager: resultManager
   }
 }
+
+
+
+const templates = (function() {
+  const searchTemplate = `
+  <header class="header" role="banner">
+  <nav class="nav" role="navigation">
+    <ul class="nav-list">
+      <li>
+          <h1 class="main-heading">YUM</h1>
+      </li>
+      <li class="nav-list__item" id="js-button-li">
+        <button class="menu-button" id="js-menu-button">Menu</button>
+      </li>
+    </ul>
+    <h2 class="nav__subheading">The world's best recipe search engine</h2>
+    <div class="mobile-nav hidden" id="js-link-li">
+        <a class="mobile-nav-link" href="#">Search</a>
+        <a class="mobile-nav-link" href="#">Results</a>
+    </div>
+  </nav>
+  </header>
+  <main role="main" class="main">
+    <p class="form-instructions">Enter at least one filter below</p>
+    <form class="form" id="js-form">
+      <label class="form__label" for="ingredient-input">Main Ingredient</label>
+      <input class="form__text-input" id="ingredient-input" type="text" name="ingredient-input"  aria-label="input search by main ingredient"> 
+      <label class="form__label" for="category-select">Category(optional)</label>
+      <select class="form__select-input" name="category-select" id="category-select">
+        <option value="">Select a Category</option>
+          <option value="beef">Beef</option>
+          <option value="chicken">Chicken</option>
+          <option value="desert">Desert</option>
+          <option value="lamb">Lamb</option>
+          <option value="miscellaneous">Miscellaneous</option>
+          <option value="pasta">Pasta</option>
+          <option value="pork">Pork</option>
+          <option value="seafood">Seafood</option>
+          <option value="side">Side</option>
+          <option value="starter">Starter</option>
+          <option value="vegan">Vegan</option>
+          <option value="vegetarian">Vegetarian</option>          
+      </select>
+      <label class="form__label" for="country-of-origin-select">Country of Origin</label>
+      <select class="form__select-input location-type" name="country-of-origin" id="country-of-origin-select">
+        <option value="">Select A Cuisine</option>
+        <optgroup label="North America"><
+          <option value="american">American</option>
+          <option value="canadian">Canadian</option>
+          <option value="jamaican">Jamaican</option>
+          <option value="mexican">Mexican</option>
+        </optgroup>
+        <optgroup label="Europe">
+          <option value="british">British</option>
+          <option value="dutch">Dutch</option>
+          <option value="french">French</option>
+          <option value="greek">Greek</option>
+          <option value="italian">Italian</option>
+          <option value="irish">Irish</option>
+          <option value="russian">Russian</option>
+          <option value="spanish">Spanish</option>
+        </optgroup>
+        <optgroup label="Africa">
+          <option value="egyptian">Egyptian</option>
+          <option value="moroccan">Moroccan</option>
+        </optgroup>
+        <optgroup label="Asia">
+          <option value="chinese">Chinese</option>
+          <option value="japanese">Japanese</option>
+          <option value="malaysian">Malaysian</option>
+          <option value="thai">Thai</option>
+          <option value="vietnamese">Vietnamese</option>
+        </optgroup>
+        <optgroup label="Unknown">
+          <option value="unknown">Unknown Origin</option>
+        </optgroup>
+      </select>
+      <input class="submit-btn" type="submit" aria-label="submit" value="Search"></input>
+    </form>
+  </main>`;
+  
+  const resultTemplate = `
+  <header class="header" role="banner">
+  <nav class="nav" role="navigation">
+    <ul class="nav-list">
+      <li>
+          <h1 class="main-heading">YUM</h1>
+      </li>
+      <li class="nav-list__item" id="js-button-li">
+        <button class="menu-button" id="js-menu-button">Menu</button>
+      </li>
+    </ul>
+    <h2 class="nav__subheading">The world's best recipe search engine</h2>
+    <div class="mobile-nav hidden" id="js-link-li">
+        <a class="mobile-nav-link" href="#">Search</a>
+        <a class="mobile-nav-link" href="#">Results</a>
+    </div>
+  </nav>
+  </header>
+  `;
+
+return {
+  searchTemplate: searchTemplate,
+  resultTemplate: resultTemplate
+}
+})();

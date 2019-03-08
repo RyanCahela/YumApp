@@ -14,94 +14,30 @@
   <link rel="stylesheet" href="css/header.css" type="text/css">
 
 </head> 
-<body class="body">
-    <header class="header" role="banner">
-      <nav class="nav" role="navigation">
-        <ul class="nav-list">
-          <li>
-              <h1 class="main-heading">YUM</h1>
-          </li>
-          <li class="nav-list__item" id="js-button-li">
-            <button class="menu-button" id="js-menu-button">Menu</button>
-          </li>
-        </ul>
-        <h2 class="nav__subheading">The world's best recipe search engine</h2>
-        <div class="mobile-nav hidden" id="js-link-li">
-            <a class="mobile-nav-link" href="#">Search</a>
-            <a class="mobile-nav-link" href="#">Results</a>
-        </div>
-      </nav>
-    </header>
-  <main role="main" class="main">
-    <p class="form-instructions">Enter at least one filter below</p>
-    <form class="form">
-      <label class="form__label" for="ingredient-input">Main Ingredient</label>
-      <input class="form__text-input" id="ingredient-input" type="text" name="ingredient-input"  aria-label="input search by main ingredient"> 
-
-      <label class="form__label" for="category-select">Category(optional)</label>
-      <select class="form__select-input" name="category-select" id="category-select">
-        <option value="">Select a Category</option>
-          <option value="beef">Beef</option>
-          <option value="chicken">Chicken</option>
-          <option value="desert">Desert</option>
-          <option value="lamb">Lamb</option>
-          <option value="miscellaneous">Miscellaneous</option>
-          <option value="pasta">Pasta</option>
-          <option value="pork">Pork</option>
-          <option value="seafood">Seafood</option>
-          <option value="side">Side</option>
-          <option value="starter">Starter</option>
-          <option value="vegan">Vegan</option>
-          <option value="vegetarian">Vegetarian</option>
-          
-      </select>
-      <label class="form__label" for="country-of-origin-select">Country of Origin</label>
-      <select class="form__select-input location-type" name="country-of-origin" id="country-of-origin-select">
-        <option value="">Select A Cuisine</option>
-        <optgroup label="North America"><
-          <option value="american">American</option>
-          <option value="canadian">Canadian</option>
-          <option value="jamaican">Jamaican</option>
-          <option value="mexican">Mexican</option>
-        </optgroup>
-        <optgroup label="Europe">
-          <option value="british">British</option>
-          <option value="dutch">Dutch</option>
-          <option value="french">French</option>
-          <option value="greek">Greek</option>
-          <option value="italian">Italian</option>
-          <option value="irish">Irish</option>
-          <option value="russian">Russian</option>
-          <option value="spanish">Spanish</option>
-
-        </optgroup>
-        <optgroup label="Africa">
-          <option value="egyptian">Egyptian</option>
-          <option value="moroccan">Moroccan</option>
-        </optgroup>
-        <optgroup label="Asia">
-          <option value="chinese">Chinese</option>
-          <option value="japanese">Japanese</option>
-          <option value="malaysian">Malaysian</option>
-          <option value="thai">Thai</option>
-          <option value="vietnamese">Vietnamese</option>
-        </optgroup>
-        <optgroup label="Unknown">
-          <option value="unknown">Unknown Origin</option>
-        </optgroup>
-      </select>
-      <input class="submit-btn" type="submit" aria-label="submit" value="Search"></input>
-    </form>
-  </main>
-  <div class="results-container">
-      <ul class="results-list" id="js-results-list">
-
+<body class="body" id="body">
+  
+  <header class="header" role="banner">
+    <nav class="nav" role="navigation">
+      <ul class="nav-list">
+        <li>
+            <h1 class="main-heading">YUM</h1>
+        </li>
+        <li class="nav-list__item" id="js-button-li">
+          <button class="menu-button" id="js-menu-button">Menu</button>
+        </li>
       </ul>
-    </div>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
-  <script src="script.js"></script>
+      <h2 class="nav__subheading">The world's best recipe search engine</h2>
+      <div class="mobile-nav hidden" id="js-link-li">
+          <a class="mobile-nav-link" href="#">Search</a>
+          <a class="mobile-nav-link" href="#">Results</a>
+      </div>
+    </nav>
+  </header>
+  <div class="results-container">
+    <ul class="results-list" id="results-list"></ul>
+  </div>
+
+<script src="script.js"></script>
 </body>
 </html>
   
