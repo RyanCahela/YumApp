@@ -13,14 +13,15 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
   }
 
   //manages App state and switching of views
-  document.addEventListener("stateChanged", function(e) {
+  document.addEventListener("stateChanged", function manageViews(e) {
     console.log("change State ran with value " + e.detail.state);
     if(e.detail.state === "search") {
       App.searchViewManager.render(App.searchViewManager.html);
       const form = document.getElementById("js-form");
       form.addEventListener("submit", function(e) {
         e.preventDefault();
-        App.searchViewManager.getValuesFromForm();  
+        App.searchViewManager.resetObjectProps();
+        App.searchViewManager.getValuesFromForm(); 
         if(App.searchViewManager.formInputsValid()) {
             //make fetch
             let url = App.searchViewManager.fetch.buildMealSearchUrl(App.searchViewManager.queries);
@@ -30,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         }   
         //prevents execution until list json is available
         function afterListFetch(jsonData) {
+          App.resultManager.clearData.call(App.resultManager);
           App.resultManager.setData.call(App.resultManager,jsonData);
           App.resultManager.formatResultData.call(App.resultManager);
           changeState("results");
@@ -146,6 +148,11 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         assignValueToProp.call(this,"mainIngredientQuery", "#ingredient-input");
         assignValueToProp.call(this,"categoryQuery", "#category-select");
         assignValueToProp.call(this,"cuisineQuery", "#country-of-origin-select");
+      },
+      this.resetObjectProps = function() {
+        for (let prop in this.queries) {
+          this.queries[prop] = null;
+        }
       }
       
     }
@@ -176,7 +183,6 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
 
         this.html += div.innerHTML;
       };
-      this.insert
       this.getFormattedData = function() {
         return this.formattedOutput;
       };
@@ -186,6 +192,10 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
       this.setData = function(json) {
         console.log("setData ran");
         this.data = json.meals;
+      };
+      this.clearData = function() {
+        this.data = null;
+        this.html = templates.resultTemplate;
       }
     }
     function MenuButton(buttonSelector, linkSelector) {
@@ -319,5 +329,4 @@ return {
   })();
   const App = initializeApp();
   changeState("search");
-
 });
