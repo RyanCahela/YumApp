@@ -12,7 +12,7 @@
   --link-text-color: #78853B;
   --button-bg-color: hsl(3, 53%, 50%);
   --button-bg-hover-color: hsl(3, 53%, 40%);
-  --card-bg-color: rgb(222, 155, 51);
+  --card-bg-color: hsl(20, 36%, 30%);
   --overlay-bg-color: rgba(11,5,12,0.6);
   --heading-font: 'TheSlugAndLion', 'Ariel Black', sans-serif;
   --body-font: 'Lato', sans-serif;

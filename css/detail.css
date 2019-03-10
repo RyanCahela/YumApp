@@ -1,0 +1,84 @@
+.lightbox-backdrop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail-container {
+    margin-top: 100px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: var(--light-text-color);
+    position: relative;
+    width: 100%;
+    padding: 0 20px;
+    background-color: var(--card-bg-color);
+    font-size: 1.6rem;
+}
+
+.detail__heading {
+    font-size: 2.4rem;
+    font-family: var(--heading-font);
+}
+
+.sub-heading-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.detail__sub-heading {
+    font-size: 2rem;
+    font-family: var(--heading-font);
+    margin: 0;
+    display: inline-block;
+}
+
+.detail__sub-heading-arrow {
+    width: 50px;
+    height: 50px;
+    transform: rotate(0deg);
+}
+
+.detail__image {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.youtube-video {
+    width: 100%;
+    height: 400px;
+}
+
+.youtube-link {
+    color: var(--light-text-color);
+    display: block;
+    margin: 30px 0;
+}
+
+
+.ingredient__list-item::before {
+    color: var(--button-bg-color);
+}
+
+.instruction__list {
+    list-style: none;
+    padding: 0;
+}
+
+.instruction__list__item {
+    border: 1px solid var(--light-text-color);
+    padding: 10px;
+}
+
+.list-item-number {
+    color: var(--button-bg-color);
+    font-size: 2.4rem;
+}
+
+
+.instruction__list__item,
+.ingredient__list__item {
+    margin-top: 15px;
+    line-height: 2.4rem;
+}

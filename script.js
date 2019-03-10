@@ -1,7 +1,5 @@
-console.log('js connected');
-
 document.addEventListener("DOMContentLoaded", function onDOMLoad() {
-  console.log("DOM Loaded");
+
 
   function changeState(newState) {
     const event = new CustomEvent("stateChanged", {
@@ -31,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         }   
         //prevents execution until list json is available
         function afterListFetch(jsonData) {
+          console.log(jsonData);
           App.resultManager.clearData.call(App.resultManager);
           App.resultManager.setData.call(App.resultManager,jsonData);
           App.resultManager.formatResultData.call(App.resultManager);
@@ -190,7 +189,6 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         return this.data;
       };
       this.setData = function(json) {
-        console.log("setData ran");
         this.data = json.meals;
       };
       this.clearData = function() {
@@ -212,9 +210,6 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
 
     Object.setPrototypeOf(resultManager, ManagerFunctions);
     Object.setPrototypeOf(searchViewManager, ManagerFunctions);
-
-
-    console.log(resultManager.__proto__);
 
     return {
       searchViewManager: searchViewManager,
