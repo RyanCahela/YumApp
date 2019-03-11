@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
 
   //manages App state and switching of views
   document.addEventListener("stateChanged", function manageViews(e) {
-    console.log("change State ran with value " + e.detail.state);
     if(e.detail.state === "search") {
       App.searchViewManager.render(App.searchViewManager.html);
       const form = document.getElementById("js-form");
@@ -13,14 +12,12 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         if(App.searchViewManager.formInputsValid()) {
           //make fetch
           let url = App.searchViewManager.fetch.buildMealSearchUrl(App.searchViewManager.queries);
-          console.log(url);
           App.searchViewManager.fetch.getData(url,null,afterListFetch);
         } else {
           App.searchViewManager.displaySearchErrorToUser();
         }
         //prevents execution until list json is available
         function afterListFetch(data) {
-          console.log(data);
           if(!data.meals) {
             App.searchViewManager.displayNotFoundToUser();
             return;
@@ -37,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
       const resultList = document.getElementById('result-list');
       resultList.addEventListener("click", function(e) {
         e.preventDefault();
-        console.log(e.target);
         let mealId;
         const clickedElement = e.target;
         const mealIdAttribute = "data-meal-id";
@@ -63,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
                         });
                         App.detailManager.clearData();
                         App.detailManager.setJson(responseJson);
-                        console.log(App.detailManager.data);
                         App.detailManager.formatDetailData();                     
                         changeState("detail");
                       })
@@ -301,8 +296,7 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         </div>
         <script src="script.js"></script>`
 
-        console.log(instructionsTemplate);
-        console.log(ingredientsTemplate);
+        
         this.html += formattedHtml; 
       }
       this.clearData = function() {
@@ -323,7 +317,6 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         const minusSign = "&#10134;";
 
         ingredientsTab.addEventListener("click", function instructionsClickHandler(e) {
-          console.log("ing clicked");
           ingredientsList.classList.toggle("hidden");
           ingredientsPlus.classList.toggle("hidden");
           ingredientsMinus.classList.toggle("hidden");
