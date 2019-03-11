@@ -11,12 +11,13 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         App.searchViewManager.resetObjectProps();
         App.searchViewManager.getValuesFromForm(); 
         if(App.searchViewManager.formInputsValid()) {
-            //make fetch
-            let url = App.searchViewManager.fetch.buildMealSearchUrl(App.searchViewManager.queries);
-            App.searchViewManager.fetch.getData(url,null,afterListFetch);
+          //make fetch
+          let url = App.searchViewManager.fetch.buildMealSearchUrl(App.searchViewManager.queries);
+          console.log(url);
+          App.searchViewManager.fetch.getData(url,null,afterListFetch);
         } else {
-            App.searchViewManager.displaySearchErrorToUser();
-        }   
+          App.searchViewManager.displaySearchErrorToUser();
+        }
         //prevents execution until list json is available
         function afterListFetch(data) {
           console.log(data);
@@ -215,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
       this.getData = function() {
         return this.data;
       };
-      this.setData = function(json) {
+      this.setData = function(json) { 
         this.data = json.meals;
       };
       this.clearData = function() {
