@@ -1,15 +1,5 @@
 document.addEventListener("DOMContentLoaded", function onDOMLoad() {
 
-
-  function changeState(newState) {
-    const event = new CustomEvent("stateChanged", {
-      detail: {
-        state: newState
-      }
-    });
-    document.dispatchEvent(event);
-  }
-
   //manages App state and switching of views
   document.addEventListener("stateChanged", function manageViews(e) {
     console.log("change State ran with value " + e.detail.state);
@@ -28,10 +18,10 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
             App.searchViewManager.displaySearchErrorToUser();
         }   
         //prevents execution until list json is available
-        function afterListFetch(jsonData) {
-          console.log(jsonData);
+        function afterListFetch(data) {
+          console.log(data);
           App.resultManager.clearData.call(App.resultManager);
-          App.resultManager.setData.call(App.resultManager,jsonData);
+          App.resultManager.setData.call(App.resultManager,data);
           App.resultManager.formatResultData.call(App.resultManager);
           changeState("results");
         }
@@ -39,12 +29,45 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
     } else {}
     if(e.detail.state === "results") {
       App.resultManager.render(App.resultManager.html);
-      const resultsList = document.getElementById('result-list');
-      resultsList.addEventListener("click", function(e) {
+      const resultList = document.getElementById('result-list');
+      resultList.addEventListener("click", function(e) {
         e.preventDefault();
         console.log(e.target);
-      })
+        let mealId;
+        const clickedElement = e.target;
+        const mealIdAttribute = "data-meal-id";
+
+        //find data-meal-id so only one event listener needs to be used on
+        //resultList.
+        if(clickedElement.hasAttribute(mealIdAttribute)) {
+          mealId = e.target.getAttribute(mealIdAttribute);
+        } else if(clickedElement.parentNode.hasAttribute(mealIdAttribute)) {
+          mealId = clickedElement.parentNode.getAttribute(mealIdAttribute);
+        } else if(clickedElement.parentNode.parentNode.hasAttribute(mealIdAttribute)) {
+          mealId = clickedElement.parentNode.parentNode.getAttribute(mealIdAttribute);
+        } else {
+          mealId = null;
+        };
+        
+        const url = App.resultManager.fetch.buildDetailSearchUrl(mealId);
+        let mealJson = fetch(url)
+                      .then(response => response.json())
+                      .then(responseJson => {
+                        App.detailManager.clearData();
+                        App.detailManager.setJson(responseJson);
+                        console.log(App.detailManager.data);
+                        App.detailManager.formatDetailData();                     
+                        changeState("detail");
+                      })
+                      .catch(err => {
+                        App.resultManager.render(App.resultManager.searchErrorHtml);
+                      });
+      });
     }
+    if(e.detail.state === "detail") {
+      App.detailManager.render(App.detailManager.html);
+    }
+    
   });
 
   function initializeApp() {
@@ -162,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
       this.resultList = "";
       this.formatResultData = function() {
         let stringArray = this.data.map(function(item) { 
-          return `<li class="result">
+          return `<li class="result" data-meal-id=${item.idMeal}>
           <h3 class="result__heading">${item.strMeal}</h3>
           <a class="result__link" href="#">
             <img class="result__link__image" src=${item.strMealThumb} alt=${item.strMeal}>
@@ -196,6 +219,96 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         this.html = templates.resultTemplate;
       }
     }
+    function DetailManager() {
+      this.data = null;
+      this.html = templates.resultTemplate;
+      this.setJson = function(json) {
+        this.data = json.meals[0];
+      }
+      this.formatDetailData = function() {
+      
+        const createInstructionsTemplate = ()=> {
+          let instructions = this.data.strInstructions.split(".");
+          const formattedInstructions = instructions.map(function(item) {
+            if(item) {
+              return `<li class="instruction__list__item"><span class="list-item-number">${instructions.indexOf(item) + 1}.</span>${item}</li>`;
+            }
+          });
+          return formattedInstructions.join(" ");
+        }
+        const createIngredientsTemplate = ()=> {
+          let ingredientArray = [];
+          for(let i=0; i <= 20; i++) {
+            let ingredientStr = `strIngredient${i}`;
+            let measureStr = `strMeasure${i}`;
+            if(this.data[ingredientStr] && this.data[measureStr]) {
+              let string = `<li class="ingredient__list__item">${this.data[measureStr]} ${this.data[ingredientStr]}</li>`;
+              ingredientArray.push(string);
+            }
+          }
+          return ingredientArray.join(" ");
+        }
+        let instructionsTemplate = createInstructionsTemplate();
+        let ingredientsTemplate = createIngredientsTemplate();
+        const formattedHtml = `
+        <div class="lightbox-backdrop">
+          <div id="detail-container" class="lightbox detail-container card">
+            <h1 class="detail__heading">${this.data.strMeal}</h1>
+      
+            <img class="detail__image" src=${this.data.strMealThumb} alt="">
+            <section class="ingredients">
+              <div class="sub-heading-container js-ingredients">
+                <h4 class="detail__sub-heading">Ingredients</h4>
+              </div>
+              <ul class="ingredient__list js-ingredient__list">
+                ${ingredientsTemplate}
+              </ul>
+            </section>
+            <section class="instructions">
+              <div class="sub-heading-container js-instructions">
+                <h4 class="detail__sub-heading">Instructions</h4>
+              </div>
+              <ol class="instruction__list js-instruction__list">
+                ${instructionsTemplate}
+              </ol>
+            </section>
+          </div>
+        </div>
+        <script src="script.js"></script>`
+
+        console.log(instructionsTemplate);
+        console.log(ingredientsTemplate);
+        this.html += formattedHtml; 
+      }
+      this.clearData = function() {
+        this.data = null;
+        this.html = templates.resultTemplate;
+      }
+      //TODO Finish collapsing menu feature for mobile
+      this.addCollapsableSections = function() {
+        const ingredientsTab = document.querySelector("js-ingredients");
+        const instructionsTab = document.querySelector("js-instructions");
+        const ingredientsList = docuemnt.querySelector("js-ingredient__list");
+        const instructionsList = docuemnt.querySelector("js-instructions__list");
+
+        ingredientsTab.addEventListener("click", function instructionsClickHandler(e) {
+          console.log("ing clicked");
+          ingredientsList.classList.toggle("hidden");
+        });
+
+        instructionsTab.addEventListener("click", function instructionsTabClickHandler() {
+          
+          instructionsList.classList.toggle("hidden");
+        })
+      }
+
+
+
+
+    }
+
+
+
     function MenuButton(buttonSelector, linkSelector) {
       this.button = document.querySelector(buttonSelector);
       this.linksLi = document.querySelector(linkSelector);
@@ -203,20 +316,33 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         this.linksLi.classList.toggle("hidden");  
       }
     }
-
     let searchViewManager = new SearchManager();
     let resultManager = new ResultManager();
+    let detailManager = new DetailManager();
     let menuButton = new MenuButton("#js-button-li","#js-link-li");
+
 
     Object.setPrototypeOf(resultManager, ManagerFunctions);
     Object.setPrototypeOf(searchViewManager, ManagerFunctions);
+    Object.setPrototypeOf(detailManager, ManagerFunctions);
 
     return {
       searchViewManager: searchViewManager,
       menuButton: menuButton,
-      resultManager: resultManager
+      resultManager: resultManager,
+      detailManager: detailManager
     }
   }
+
+  function changeState(newState) {
+    const event = new CustomEvent("stateChanged", {
+      detail: {
+        state: newState
+      }
+    });
+    document.dispatchEvent(event);
+  }
+
 
   //templates keep collapsed unless you need
   var templates = (function() {
