@@ -53,6 +53,9 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         let mealJson = fetch(url)
                       .then(response => response.json())
                       .then(responseJson => {
+                        window.scrollTo({
+                          top: 0
+                        });
                         App.detailManager.clearData();
                         App.detailManager.setJson(responseJson);
                         console.log(App.detailManager.data);
@@ -66,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
     }
     if(e.detail.state === "detail") {
       App.detailManager.render(App.detailManager.html);
+      App.detailManager.addCollapsableSections();
     }
     
   });
@@ -259,16 +263,20 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
             <section class="ingredients">
               <div class="sub-heading-container js-ingredients">
                 <h4 class="detail__sub-heading">Ingredients</h4>
+                <span class="detail__sub-heading-glyph" id="ingredients-plus">&#10133;</span>
+                <span class="detail__sub-heading-glyph hidden" id="ingredients-minus">&#10134;</span>
               </div>
-              <ul class="ingredient__list js-ingredient__list">
+              <ul class="ingredient__list js-ingredient__list hidden">
                 ${ingredientsTemplate}
               </ul>
             </section>
             <section class="instructions">
               <div class="sub-heading-container js-instructions">
                 <h4 class="detail__sub-heading">Instructions</h4>
+                <span class="detail__sub-heading-glyph" id="instructions-plus">&#10133;</span>
+                <span class="detail__sub-heading-glyph hidden" id="instructions-minus">&#10134;</span>
               </div>
-              <ol class="instruction__list js-instruction__list">
+              <ol class="instruction__list js-instruction__list hidden">
                 ${instructionsTemplate}
               </ol>
             </section>
@@ -286,19 +294,31 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
       }
       //TODO Finish collapsing menu feature for mobile
       this.addCollapsableSections = function() {
-        const ingredientsTab = document.querySelector("js-ingredients");
-        const instructionsTab = document.querySelector("js-instructions");
-        const ingredientsList = docuemnt.querySelector("js-ingredient__list");
-        const instructionsList = docuemnt.querySelector("js-instructions__list");
+        const ingredientsTab = document.querySelector(".js-ingredients");
+        const instructionsTab = document.querySelector(".js-instructions");
+        const ingredientsList = document.querySelector(".js-ingredient__list");
+        const instructionsList = document.querySelector(".js-instruction__list");
+        const instructionsPlus = document.querySelector("#instructions-plus");
+        const ingredientsPlus = document.querySelector("#ingredients-plus");
+        const instructionsMinus = document.querySelector("#instructions-minus");
+        const ingredientsMinus = document.querySelector("#ingredients-minus");
+        const plusSign = "&#10133;";
+        const minusSign = "&#10134;";
 
         ingredientsTab.addEventListener("click", function instructionsClickHandler(e) {
           console.log("ing clicked");
           ingredientsList.classList.toggle("hidden");
+          ingredientsPlus.classList.toggle("hidden");
+          ingredientsMinus.classList.toggle("hidden");
+          
         });
 
         instructionsTab.addEventListener("click", function instructionsTabClickHandler() {
           
           instructionsList.classList.toggle("hidden");
+          instructionsPlus.classList.toggle("hidden");
+          instructionsMinus.classList.toggle("hidden");
+          
         })
       }
 

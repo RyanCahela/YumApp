@@ -11,7 +11,7 @@
     color: var(--light-text-color);
     position: relative;
     width: 100%;
-    padding: 0 20px;
+    padding: 0 20px 20px 20px;
     background-color: var(--card-bg-color);
     font-size: 1.6rem;
 }
@@ -25,6 +25,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 .detail__sub-heading {
@@ -32,17 +34,23 @@
     font-family: var(--heading-font);
     margin: 0;
     display: inline-block;
+    color: var(--light-text-color);
 }
 
-.detail__sub-heading-arrow {
-    width: 50px;
-    height: 50px;
-    transform: rotate(0deg);
+.detail__sub-heading-glyph {
+    color: transparent;
+    text-shadow: 0 0 0 var(--light-text-color);
 }
+
 
 .detail__image {
     width: 100%;
     margin-bottom: 30px;
+}
+
+.ingredients,
+.instructions {
+    border: 1px solid var(--light-text-color);
 }
 
 .youtube-video {
@@ -67,7 +75,7 @@
 }
 
 .instruction__list__item {
-    border: 1px solid var(--light-text-color);
+    border-bottom: 1px solid var(--light-text-color);
     padding: 10px;
 }
 
