@@ -24,6 +24,7 @@
       outline: 3px solid var(--light-text-color);
       color: var(--light-text-color);
       padding: 5px 10px;
+      background-color: var(--button-bg-color);
   }
   
   .nav {
@@ -52,6 +53,7 @@
     color: var(--light-text-color);
     padding: 10px;
     border-top: 2px solid var(--light-text-color);
+    display: inline-block;
   }
 
   
@@ -63,4 +65,33 @@
   
   .hidden {
     display: none;
+  }
+
+  .menu-hidden {
+    display: none;
+  }
+
+  @media only screen and (min-width: 700px) {
+    .menu-button {
+      display: none;
+    }
+
+    .menu-hidden {
+      display: block;
+    }
+    .mobile-nav {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    }
+
+    .mobile-nav-link {
+      border: none;
+      margin-right: 50px;
+    }
+
+    .mobile-nav-link:hover {
+      text-decoration: underline;
+    }
+
   }

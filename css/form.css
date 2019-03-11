@@ -1,3 +1,8 @@
+option {
+  font-size: inherit;
+}
+
+
 .form__label {
     display: block;
     font-size: 1.5rem;
@@ -5,46 +10,45 @@
     text-shadow: 1px 1px var(--button-bg-color);
   }
   
-  .form__text-input {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    padding: 10px 10px;
-    background-color: var(--light-text-color);
-    border: none;
-    outline: 2px solid var(--button-bg-color);
-    width: 15ch;
-  }
-  
-  .form__select-input {
-    font-size: 1.5rem;
-    background-color: var(--light-text-color);
-    padding: 10px 10px;
-    margin-bottom: 20px;
-    outline: 2px solid var(--button-bg-color);
-  }
+.form__text-input {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  padding: 10px 10px;
+  background-color: var(--light-text-color);
+  border: none;
+  outline: 2px solid var(--button-bg-color);
+  width: 15ch;
+}
 
-  .form-instructions {
-    font-size: 1rem;
-  }
-  
-  .submit-btn {
-    display: block;
-    font-size: 2rem;
-    width: 100%;
-    padding: 20px;
-    border: none;
-    background-color: var(--button-bg-color);
-    color: var(--light-text-color);
-    margin-top: 10px;
-    transition: background-color .3s ease;
-    cursor: pointer;
-    outline: none;
-  }
-  
-  .submit-btn:hover,
-  .submit-btn:active{
-    color: var(--light-text-color);
-    background-color: var(--button-bg-hover-color);
-    transition: background-color .3s ease;
-  }
-  
+.form__select-input {
+  font-size: 1.5rem;
+  background-color: var(--light-text-color);
+  padding: 10px 10px;
+  margin-bottom: 20px;
+  outline: 2px solid var(--button-bg-color);
+}
+
+.form-instructions {
+  font-size: 1rem;
+}
+
+.submit-btn {
+  display: block;
+  font-size: 2rem;
+  width: 100%;
+  padding: 20px;
+  border: none;
+  background-color: var(--button-bg-color);
+  color: var(--light-text-color);
+  margin-top: 10px;
+  transition: background-color .3s ease;
+  cursor: pointer;
+  outline: none;
+}
+
+.submit-btn:hover,
+.submit-btn:active{
+  color: var(--light-text-color);
+  background-color: var(--button-bg-hover-color);
+  transition: background-color .3s ease;
+}

@@ -55,8 +55,15 @@ html {
 .main {
   padding: 150px 20px 0 20px;
   width: 100vw;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .hidden {
   display: none;
+}
+
+
+@media only screen and (min-width: 400px) {
+  
 }

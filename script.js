@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
           let searchBtn = document.querySelector("#js-menu-search-button");
           let resultsBtn = document.querySelector("#js-menu-results-button");
           button.addEventListener("click", function() {
-            linksLi.classList.toggle("hidden");
+            linksLi.classList.toggle("menu-hidden");
           });
 
           searchBtn.addEventListener("click", function() {
@@ -258,29 +258,30 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         const formattedHtml = `
         <div class="lightbox-backdrop">
           <div id="detail-container" class="lightbox detail-container card">
-            <h1 class="detail__heading">${this.data.strMeal}</h1>
-      
-            <img class="detail__image" src=${this.data.strMealThumb} alt="">
-            <section class="ingredients">
-              <div class="sub-heading-container js-ingredients">
-                <h4 class="detail__sub-heading">Ingredients</h4>
-                <span class="detail__sub-heading-glyph" id="ingredients-plus">&#10133;</span>
-                <span class="detail__sub-heading-glyph hidden" id="ingredients-minus">&#10134;</span>
-              </div>
-              <ul class="ingredient__list js-ingredient__list hidden">
-                ${ingredientsTemplate}
-              </ul>
-            </section>
-            <section class="instructions">
-              <div class="sub-heading-container js-instructions">
-                <h4 class="detail__sub-heading">Instructions</h4>
-                <span class="detail__sub-heading-glyph" id="instructions-plus">&#10133;</span>
-                <span class="detail__sub-heading-glyph hidden" id="instructions-minus">&#10134;</span>
-              </div>
-              <ol class="instruction__list js-instruction__list hidden">
-                ${instructionsTemplate}
-              </ol>
-            </section>
+              <h1 class="detail__heading">${this.data.strMeal}</h1>
+              <img class="detail__image" src=${this.data.strMealThumb} alt="">
+            <div class="expandables">
+              <section class="ingredients">
+                <div class="sub-heading-container js-ingredients">
+                  <h4 class="detail__sub-heading">Ingredients</h4>
+                  <span class="detail__sub-heading-glyph" id="ingredients-plus">&#10133;</span>
+                  <span class="detail__sub-heading-glyph hidden" id="ingredients-minus">&#10134;</span>
+                </div>
+                <ul class="ingredient__list js-ingredient__list hidden">
+                  ${ingredientsTemplate}
+                </ul>
+              </section>
+              <section class="instructions">
+                <div class="sub-heading-container js-instructions">
+                  <h4 class="detail__sub-heading">Instructions</h4>
+                  <span class="detail__sub-heading-glyph" id="instructions-plus">&#10133;</span>
+                  <span class="detail__sub-heading-glyph hidden" id="instructions-minus">&#10134;</span>
+                </div>
+                <ol class="instruction__list js-instruction__list hidden">
+                  ${instructionsTemplate}
+                </ol>
+              </section>
+            </div>
           </div>
         </div>
         <script src="script.js"></script>`
@@ -379,7 +380,7 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
       </li>
     </ul>
     <h2 class="nav__subheading">The world's best recipe search engine</h2>
-    <div class="mobile-nav hidden" id="js-link-li">
+    <div class="mobile-nav menu-hidden" id="js-link-li">
         <a class="mobile-nav-link" href="#" id="js-menu-search-button">Search</a>
         <a class="mobile-nav-link" href="#" id="js-menu-results-button">Results</a>
     </div>
@@ -456,7 +457,7 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
       </li>
     </ul>
     <h2 class="nav__subheading">The world's best recipe search engine</h2>
-    <div class="mobile-nav hidden" id="js-link-li">
+    <div class="mobile-nav menu-hidden" id="js-link-li">
         <a class="mobile-nav-link" href="#" id="js-menu-search-button">Search</a>
         <a class="mobile-nav-link" href="#" id="js-menu-results-button">Results</a>
     </div>
