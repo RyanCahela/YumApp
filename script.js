@@ -21,6 +21,10 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         //prevents execution until list json is available
         function afterListFetch(data) {
           console.log(data);
+          if(!data.meals) {
+            App.searchViewManager.displayNotFoundToUser();
+            return;
+          }
           App.resultManager.clearData.call(App.resultManager);
           App.resultManager.setData.call(App.resultManager,data);
           App.resultManager.formatResultData.call(App.resultManager);
@@ -168,6 +172,17 @@ document.addEventListener("DOMContentLoaded", function onDOMLoad() {
         errorMessage.textContent = "Please select from the dropdowns or search by main ingredient";
         form.prepend(errorMessage);
       },
+      this.displayNotFoundToUser = function() {
+        let form = document.querySelector("#js-form");
+        //so only one error message is displayed upon multiple clicks.
+        if (form.children[0].classList.contains('error-message')) {
+          return;
+        };
+        let errorMessage = document.createElement("div");
+        errorMessage.classList.add("error-message");
+        errorMessage.textContent = "We couldn't find anything please try again.";
+        form.prepend(errorMessage);
+      }
       this.getValuesFromForm = function() {
         function assignValueToProp(nameOfProp, CSSselectorOfElement) {
           this.queries[nameOfProp] = document.querySelector(CSSselectorOfElement).value;
